@@ -14,7 +14,7 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $burger = Product::create(['name' => 'Burger']);
+        $burger = Product::create(['id' => 1, 'name' => 'Burger']);
 
         // Link ingredients with quantities needed for a Burger
         $burger->ingredients()->attach([

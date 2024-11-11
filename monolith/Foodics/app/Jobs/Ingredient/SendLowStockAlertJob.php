@@ -17,7 +17,7 @@ class SendLowStockAlertJob implements ShouldQueue
      */
     public function __construct(public Ingredient $ingredient)
     {
-        $this->onConnection('redis')->onQueue('low_stock_alerts');
+        $this->onQueue('low_stock_alerts');
     }
 
     /**

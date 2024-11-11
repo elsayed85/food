@@ -19,7 +19,7 @@ class PlaceNewOrderJob implements ShouldQueue
      */
     public function __construct(public array $products)
     {
-        $this->onConnection('redis')->onQueue('new_orders');
+        $this->onQueue('new_orders');
     }
 
     /**

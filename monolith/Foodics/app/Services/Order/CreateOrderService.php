@@ -16,19 +16,10 @@ class CreateOrderService
 
     public function createOrder(): Order
     {
-        $order = Order::create();
-        $order->products()->attach($this->products);
-        return $order;
-
-        DB::beginTransaction();
-        try {
+        return DB::transaction(function () {
             $order = Order::create();
             $order->products()->attach($this->products);
             return $order;
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::log('error', $e->getMessage());
-            throw new OrderCreationException();
-        }
+        });
     }
 }

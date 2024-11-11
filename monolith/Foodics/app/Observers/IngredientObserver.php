@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Ingredient;
 use App\Services\Ingredient\NotifyIngredientService;
+use Illuminate\Support\Facades\DB;
 
 class IngredientObserver
 {
@@ -12,6 +13,15 @@ class IngredientObserver
      */
     public function updated(Ingredient $ingredient): void
     {
-        (new NotifyIngredientService($ingredient))->notify();
+        DB::beginTransaction();
+        try {
+            $ingredient->triggerLowStockAlert(function () use ($ingredient) {
+                (new NotifyIngredientService($ingredient))->notify();
+            });
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            report($e);
+        }
     }
 }

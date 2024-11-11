@@ -6,6 +6,7 @@ use App\Enums\ProductIngredientStatus;
 use App\Models\Order;
 use App\Models\OrderProductIngredient;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProcessOrderService
 {
@@ -53,6 +54,5 @@ class ProcessOrderService
         ]);
 
         $ingredient->deductStock($quantityToDeduct);
-        $ingredient->save();
     }
 }
